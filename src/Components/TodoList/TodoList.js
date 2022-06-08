@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import Todo from '../TOdo/Todo'
+import Todo from '../Todo/Todo'
 import TodoForm from '../TodoForm/TodoForm'
+import './TodoList.css'
 
 function TodoList() {
     const[todos,setTodos]=useState([])
@@ -15,11 +16,21 @@ function TodoList() {
         console.log(newTodos);
     }
 
+    const updateTodo=(todoId,newValue)=>{
+        if(!newValue.text|| /^\s*$/.test(newValue.text)){
+            return
+        }
+        setTodos(prev=>prev.map(item=>(item.id===todoId ? newValue :item)));
+
+    };
+
+
     const removeTodo=id=>{
         const removeArr=[...todos].filter(todo=>todo.id !==id)
         setTodos(removeArr);
     };
 
+    
 
 
     const completeTodo=id=>{
@@ -33,10 +44,11 @@ function TodoList() {
     };
 
   return (
-    <div>
+    <div className='header'>
         <h1>What's Plan For Today</h1>
         <TodoForm onSubmit={addTodo} />
-        <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo}/>
+        <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo}
+         updateTodo={updateTodo} />
     </div>
   )
 }
