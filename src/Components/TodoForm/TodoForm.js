@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './TodoForm.css'
 
-function TodoForm() {
+function TodoForm(props) {
    const [input,setInput]=useState('')
 
    const handleChange=(e)=>{
@@ -9,13 +9,19 @@ function TodoForm() {
    }
 
    const handleSubmit=(e)=>{
-        e.preventDefault();
-        setInput('');
+       e.preventDefault();
+
+       props.onSubmit({
+        id:Math.floor(Math.random()*1000),
+        text:input
+       });
+       setInput('');
 
    }
 
   return (
-     <form className='todo-form' onClick={handleSubmit} >
+     <div className='todoForm'>
+         <form className='todo-form' onClick={handleSubmit} >
          <input type="text" 
          placeholder='Enter Your Todo' 
          value={input} name="text" 
@@ -24,10 +30,9 @@ function TodoForm() {
          />
          
 
-      <button className='todo-button'> Add todo</button>
-     </form>
-
+      <button className='todo-button'> Add todo</button></form>
      
+     </div>
 
     )
 }
